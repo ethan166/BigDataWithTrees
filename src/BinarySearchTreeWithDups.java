@@ -37,46 +37,24 @@ public class BinarySearchTreeWithDups<T extends Comparable<? super T>> extends B
 			int comparison = newEntry.compareTo(currentEntry);
 
 			if (comparison == 0) { // newEntry matches currentEntry;
-									// return and replace currentEntry
-				result = currentEntry;
-				looking = true;
-				if (currentNode.hasRightChild())
-				{
-					currentNode = currentNode.getRightChild();
-					if(currentNode.hasLeftChild() && looking )
-					{
-						currentNode = currentNode.getLeftChild();
-						while(currentNode.hasLeftChild() && found == true)
-						{
-							if(currentNode.hasLeftChild())
-							{
-								currentNode = currentNode.getLeftChild();
-							} else {
-								found = true;
-								currentNode.setLeftChild(new BinaryNode<T>(newEntry));
-							}
-						}
-					}
-					else
-					{
+				// return and replace currentEntry
+				//found = true;
+					result = currentEntry;
+				//currentNode.setData(newEntry);
+					if (currentNode.hasRightChild())
+							currentNode = currentNode.getRightChild();
+					else {
 						found = true;
-						currentNode.setLeftChild(new BinaryNode<T>(newEntry));
-					}
-				
-				}
-				else {
-					found = true;
-					currentNode.setRightChild(new BinaryNode<T>(newEntry));
-				}
-				
+						currentNode.setRightChild(new BinaryNode<T>(newEntry));
+}
 			} else if (comparison < 0) { // currentEntry is greater than newEntry, in other words newEntry is smaller
 				if (currentNode.hasLeftChild())
 					currentNode = currentNode.getLeftChild();
-				else { // currentEntry is smaller than newEntry
+				else { 
 					found = true;
 					currentNode.setLeftChild(new BinaryNode<T>(newEntry));
 				} // end if
-			} else {
+			} else {// currentEntry is smaller than newEntry
 				assert comparison > 0;
 
 				if (currentNode.hasRightChild())
@@ -100,94 +78,69 @@ public class BinarySearchTreeWithDups<T extends Comparable<? super T>> extends B
 	public ArrayList<T> getAllEntriesIterative(T searchVal) {
 		// this initial code is meant as a suggestion to get your started- feel
 		// free to use it or delete it!
-		BinaryNodeInterface<T> currentNode = getRootNode();
-		ArrayList<T> entryList = new ArrayList<T>();
 		boolean found = false;
-		//int count = 0;
-		//T currentEntry = currentNode.getData();
+		ArrayList<T> entryList = new ArrayList<T>();
+		BinaryNodeInterface<T> currentNode = getRootNode();
+		while (!found && (currentNode != null)) {
+			T currentEntry = currentNode.getData();
 
-		
-			while (currentNode != null && found == false) {
-				T currentEntry = currentNode.getData();
-				if (searchVal.equals(currentEntry)) {
-					entryList.add(searchVal);
-					found = true;
-					
-						while(currentNode.hasRightChild())
-						{
-							currentNode = currentNode.getRightChild();
-							currentEntry = currentNode.getData();
-							if(searchVal.equals(currentEntry))
-							{
-								entryList.add(searchVal);
-								currentNode = currentNode.getRightChild();
-							}
-						}
-					//
-					} else if (searchVal.compareTo(currentEntry) < 0)
-						currentNode = currentNode.getLeftChild();
-					else
-						currentNode = currentNode.getRightChild();
+			if (searchVal.equals(currentEntry)) {
 				
-				} 
-				return entryList;
-			}
+				entryList.add(searchVal);
+				
+				
+				if(currentNode.hasRightChild())
+				{
+					currentNode = currentNode.getRightChild();
+					if(searchVal.equals(currentNode.getData()))
+					{
+						entryList.add(searchVal);
+						found = true;
+					}
+				}
+				
+			} else if (searchVal.compareTo(currentEntry) < 0)
+				currentNode = currentNode.getLeftChild();
+			else
+				currentNode = currentNode.getRightChild();
+		}
 
-	//	return entryList;
-	
+		//return entryList;
 
-	// ??? IMPLEMENT THIS METHOD
+		return entryList;
+	}
 	public ArrayList<T> getAllEntriesRecursive(T searchVal) {
 		// this initial code is meant as a suggestion to get your started- feel
 		// free to use it or delete it!
 		BinaryNodeInterface<T> rootNode = getRootNode();
 		ArrayList<T> entryList = new ArrayList<T>();
-		// getAllEntriesHelper(searchVal, rootNode, entryList);
+		
+		getAllEntriesHelper(searchVal, rootNode, entryList);
 		
 		return entryList;
 	}
 	
-	public void getAllEntriesHelper( T searchVal, BinaryNodeInterface<T> rootNode,ArrayList<T> entryList)
-	{
-		T currentEntry = rootNode.getData();
-		if (searchVal.equals(currentEntry)) {
-			entryList.add(searchVal);
-		}
+	private void getAllEntriesHelper(T searchVal, BinaryNodeInterface<T> node, ArrayList<T> entryList) {
+		if(node != null) {
+			int compareNum = node.getData().compareTo(searchVal);
 		
-		if (rootNode.hasLeftChild())
-		{
-			getAllEntriesHelper(searchVal, rootNode.getLeftChild(), entryList);
-		}
-		else if(rootNode.hasRightChild())
-		{
-			getAllEntriesHelper(searchVal, rootNode.getRightChild(), entryList);
-		}
-		
-	//	return searchVal;
+			if(compareNum == 0) {
+				getAllEntriesHelper(searchVal, node.getRightChild(), entryList);
+				entryList.add(node.getData());
+			} else {
+				getAllEntriesHelper(searchVal, node.getRightChild(), entryList);
+				getAllEntriesHelper(searchVal, node.getLeftChild(), entryList);
+			}
+		}	
 	}
-	/*
-	 * 
-	 * 
-	public int getNumberOfNodes() {
-		int leftNumber = 0;
-		int rightNumber = 0;
-
-		if (left != null)
-			leftNumber = left.getNumberOfNodes();
-
-		if (right != null)
-			rightNumber = right.getNumberOfNodes();
-
-		return 1 + leftNumber + rightNumber;
-	} 
-	 */
+	
 
 	// ??? IMPLEMENT THIS METHOD
 	public ArrayList<T> getAllEntriesLessThanIterative(T searchVal) {
 		// this initial code is meant as a suggestion to get your started- feel
 		// free to use it or delete it!
 		ArrayList<T> entryList = new ArrayList<T>();
-
+		boolean found = false;
 		// Hint: consider using a stack to mimic recursion!
 		// Stack<BinaryNodeInterface<T>> nodeStack = new
 		// Stack<BinaryNodeInterface<T>>();
@@ -195,21 +148,96 @@ public class BinarySearchTreeWithDups<T extends Comparable<? super T>> extends B
 
 		// while(!nodeStack.isEmpty()) {
 		// }
+		Stack<BinaryNodeInterface<T>> nodeStack = new Stack<BinaryNodeInterface<T>>();
+		BinaryNodeInterface<T> currentNode = getRootNode();
+		while (!found && (currentNode != null)) {
+			T currentEntry = currentNode.getData();
+			
+			
+			
+			if (searchVal.compareTo(currentEntry) == 0) {
+				
+				found = true;
+				//currentNode = currentNode.getRightChild();
+				if(currentNode.hasLeftChild())
+				{
+					nodeStack.push(currentNode.getLeftChild());
+				}
+				
+			} else if (searchVal.compareTo(currentEntry) < 0) // searchVal is smaller than currentEntry and go the left side
+			{
+				
+				currentNode = currentNode.getLeftChild();
+				
+					if(currentNode != null && currentNode.hasLeftChild() && searchVal.compareTo(currentNode.getData()) < 0)
+					{
+						nodeStack.push(currentNode.getLeftChild());
+					}
+				
+			}	
+			else // searchVal is greater than currentEntry and go the right side
+			{
+				
+				currentNode = currentNode.getRightChild();
+				if(currentNode != null)
+				{
+					entryList.add(currentNode.getData());
+					if(currentNode.hasLeftChild() && searchVal.compareTo(currentNode.getData()) < 0)
+					{
+						nodeStack.push(currentNode.getLeftChild());
+					}
+				}
+				
+				
+			}
+				
+			
+		}
+		
+		
+		
+		while(!nodeStack.isEmpty()) {
+			
+			BinaryNodeInterface<T> myNode = nodeStack.pop();
+			T myEntry = myNode.getData();
+			entryList.add(myEntry);
+			if(myNode.hasRightChild())
+			{
+				entryList.add(myNode.getRightChild().getData());
+			}
+			if(myNode.hasLeftChild())
+			{
+				entryList.add(myNode.getLeftChild().getData());
+			}
+			
+		 }
 		
 		return entryList;
+		
 	}
 
-	// ??? IMPLEMENT THIS METHOD
 	public ArrayList<T> getAllEntriesLessThanRecursive(T searchVal) {
-		// this initial code is meant as a suggestion to get your started- feel
-		// free to use it or delete it!
 		BinaryNodeInterface<T> rootNode = getRootNode();
 		ArrayList<T> entryList = new ArrayList<T>();
-		// getAllEntriesLessThanHelper(searchVal, rootNode, entryList);
+		getAllLessThanHelper(searchVal, rootNode, entryList);
 		
-		return entryList;
+		return entryList;		
 	}
-
-
-
+	public void getAllLessThanHelper(T searchVal, BinaryNodeInterface<T> node, ArrayList<T> entryList) {
+		if(node != null) {
+			if(node.getData().compareTo(searchVal) < 0) {
+		
+			entryList.add(node.getData());
+			}
+			if(node.getLeftChild() != null)
+			{
+				getAllLessThanHelper(searchVal, node.getLeftChild(), entryList);
+			}
+				
+			if(node.getRightChild() != null)
+			{
+				getAllLessThanHelper(searchVal, node.getRightChild(), entryList);
+			}
+		}
+	}
 }

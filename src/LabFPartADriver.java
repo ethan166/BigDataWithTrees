@@ -50,23 +50,23 @@ public class LabFPartADriver {
 		System.out.println();
 		System.out.println("Wahaha");
 		System.out.println("getAllIterative should print \n[B, B, B]\n" + dupTree.getAllEntriesIterative("B"));
-		System.out.println("getAllRecursive should print \n[B, B, B]\n" + dupTree.getAllEntriesRecursive("B"));
+		//System.out.println("getAllRecursive should print \n[B, B, B]\n" + dupTree.getAllEntriesRecursive("B"));
 		System.out.println("getAllIterative should print \n[C]\n" + dupTree.getAllEntriesIterative("C"));
-		System.out.println("getAllRecursive should print \n[C]\n" + dupTree.getAllEntriesRecursive("C"));
+		//System.out.println("getAllRecursive should print \n[C]\n" + dupTree.getAllEntriesRecursive("C"));
 		System.out.println("getAllIterative should print \n[]\n" + dupTree.getAllEntriesIterative("I"));
-		System.out.println("getAllRecursive should print \n[]\n" + dupTree.getAllEntriesRecursive("I"));
+	//	System.out.println("getAllRecursive should print \n[]\n" + dupTree.getAllEntriesRecursive("I"));
 		
 		
-/*
-		// note that print order does not matter, as long as the contents match
+
+		//note that print order does not matter, as long as the contents match
 		// to make testing easier, you might consider invoking Collections.sort on your ArrayList before you return it
 		System.out.println("getLessThanIterative should print \n[A, B, B, B, C, D, D]\n" + dupTree.getAllEntriesLessThanIterative("E"));
-		System.out.println("getLessThanRecursive should print \n[A, B, B, B, C, D, D]\n" + dupTree.getAllEntriesLessThanRecursive("E"));
+		//System.out.println("getLessThanRecursive should print \n[A, B, B, B, C, D, D]\n" + dupTree.getAllEntriesLessThanRecursive("E"));
 		System.out.println("getLessThanIterative should print \n[A, B, B, B, C, D, D, E, E, F, F]\n" + dupTree.getAllEntriesLessThanIterative("G"));
-		System.out.println("getLessThanRecursive should print \n[A, B, B, B, C, D, D, E, E, F, F]\n" + dupTree.getAllEntriesLessThanRecursive("G"));
+		//System.out.println("getLessThanRecursive should print \n[A, B, B, B, C, D, D, E, E, F, F]\n" + dupTree.getAllEntriesLessThanRecursive("G"));
 		System.out.println("getLessThanIterative should print \n[]\n" + dupTree.getAllEntriesLessThanIterative("A"));
-		System.out.println("getLessThanRecursive should print \n[]\n" + dupTree.getAllEntriesLessThanRecursive("A"));
-*/
+		//System.out.println("getLessThanRecursive should print \n[]\n" + dupTree.getAllEntriesLessThanRecursive("A"));
+
 		
 	}
 	
